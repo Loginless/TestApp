@@ -1,9 +1,11 @@
 package ua.com.agileboard.web.controller;
 
+import org.springframework.stereotype.Controller;
 import ua.com.agileboard.model.User;
 
 import static ua.com.agileboard.util.SecurityUtil.authUserId;
 
+@Controller
 public class ProfileRestController extends AbstractUserController {
 
     public User get() {

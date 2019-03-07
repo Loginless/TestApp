@@ -2,6 +2,7 @@ package ua.com.agileboard.web.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import ua.com.agileboard.model.User;
 import ua.com.agileboard.service.UserService;
 
@@ -12,6 +13,7 @@ import java.util.List;
 public class AbstractUserController {
     protected final Logger log = LoggerFactory.getLogger(getClass());
 
+    @Autowired
     private UserService userService;
 
     public List<User> getAll() {

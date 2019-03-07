@@ -1,5 +1,7 @@
 package ua.com.agileboard.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ua.com.agileboard.model.User;
 import ua.com.agileboard.repository.UserRepository;
 import ua.com.agileboard.util.exception.NotFoundException;
@@ -9,9 +11,15 @@ import java.util.List;
 import static ua.com.agileboard.util.ValidationUtil.checkNotFound;
 import static ua.com.agileboard.util.ValidationUtil.checkNotFoundWithId;
 
+@Service("userService")
 public class UserServiceImpl implements UserService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public User create(User user) {

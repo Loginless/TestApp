@@ -1,9 +1,11 @@
 package ua.com.agileboard.web.controller;
 
+import org.springframework.stereotype.Controller;
 import ua.com.agileboard.model.User;
 
 import java.util.List;
 
+@Controller
 public class AdminRestController extends AbstractUserController {
 
     @Override
