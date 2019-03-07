@@ -5,7 +5,7 @@
     <jmxConfigurator/>
 
     <appender name="file" class="ch.qos.logback.core.FileAppender">
-        <file>${AgileBoard_ROOT}/log/topjava.log</file>
+        <file>${AGILEBOARD_ROOT}/log/agileboard.log</file>
 
         <encoder>
             <charset>UTF-8</charset>
