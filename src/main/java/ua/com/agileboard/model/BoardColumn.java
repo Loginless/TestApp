@@ -1,13 +1,19 @@
 package ua.com.agileboard.model;
 
 
+import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
+@Entity
+@Table(name = "columns", uniqueConstraints = {@UniqueConstraint(columnNames = {"name"}, name = "columns_unique_name_idx")})
 public class BoardColumn extends AbstractNamedEntity {
 
-
+    @Column(name = "description")
+    @Size(max = 255)
     private String description;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "boardColumn", cascade = CascadeType.REMOVE)
     private Set<Card> cards;
 
     public BoardColumn() {
