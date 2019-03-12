@@ -1,5 +1,6 @@
 package ua.com.agileboard.testdata;
 
+import org.springframework.test.web.servlet.ResultMatcher;
 import ua.com.agileboard.model.AbstractBaseEntity;
 import ua.com.agileboard.model.Role;
 import ua.com.agileboard.model.User;
@@ -7,7 +8,7 @@ import ua.com.agileboard.model.User;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
+import static ua.com.agileboard.TestUtil.*;
 public class UserTestData {
     public static final int ADMIN_ID = AbstractBaseEntity.START_SEQ;
     public static final int USER1_ID = AbstractBaseEntity.START_SEQ + 1;
@@ -33,6 +34,10 @@ public class UserTestData {
 
     public static void assertMatch(Iterable<User> actual, Iterable<User> expected) {
         assertThat(actual).usingElementComparatorIgnoringFields("registered", "password").isEqualTo(expected);
+    }
+
+    public static ResultMatcher getUserMatcher(User expected) {
+        return result -> assertMatch(readFromJsonMvcResult(result, User.class), expected);
     }
 
 

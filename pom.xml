@@ -22,7 +22,6 @@
         <spring-data-jpa.version>2.1.2.RELEASE</spring-data-jpa.version>
         <tomcat.version>9.0.12</tomcat.version>
 
-
         <!-- DB -->
         <hsqldb.version>2.3.4</hsqldb.version>
 
@@ -35,8 +34,14 @@
         <logback.version>1.2.3</logback.version>
         <slf4j.version>1.7.25</slf4j.version>
 
-        <!--    Tests  -->
+        <!-- Tests  -->
         <junit.jupiter.version>5.3.1</junit.jupiter.version>
+        <hamcrest.version>1.3</hamcrest.version>
+        <jsonassert.version>1.5.0</jsonassert.version>
+
+        <!-- Json -->
+        <jackson-json.version>2.9.7</jackson-json.version>
+
 
     </properties>
 
@@ -163,6 +168,25 @@
             <version>2.3.1</version>
         </dependency>
 
+        <!--JSON-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson-json.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-hibernate5</artifactId>
+            <version>${jackson-json.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>${jackson-json.version}</version>
+        </dependency>
+
         <!--Test-->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -170,16 +194,32 @@
             <version>${junit.jupiter.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-core</artifactId>
+            <version>${hamcrest.version}</version>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <version>${spring.version}</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
             <version>3.11.1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.skyscreamer</groupId>
+            <artifactId>jsonassert</artifactId>
+            <version>${jsonassert.version}</version>
             <scope>test</scope>
         </dependency>
 
