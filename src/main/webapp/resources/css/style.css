@@ -18,7 +18,7 @@ dd {
 tr[data-mealExcess="false"] {
     color: green;
 }
-
+fa fa-sign-in
 tr[data-mealExcess="true"] {
     color: red;
 }
