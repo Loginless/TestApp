@@ -23,6 +23,7 @@
     <!--<logger name="ua.com.agileboard" level="debug"/>-->
     <logger name="ua.com.agileboard.web" level="debug"/>
     <logger name="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver" level="debug"/>
+    <logger name="org.springframework.security" level="debug"/>
 
 
     <root level="info">
