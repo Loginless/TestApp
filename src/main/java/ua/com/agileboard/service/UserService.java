@@ -18,5 +18,8 @@ public interface UserService {
     User getByEmail(String email) throws NotFoundException;
 
     void update(User user);
+
+    void enable(int id, boolean enable);
+
 }
 

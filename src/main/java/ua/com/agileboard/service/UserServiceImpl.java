@@ -3,6 +3,7 @@ package ua.com.agileboard.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import ua.com.agileboard.model.User;
 import ua.com.agileboard.repository.UserRepository;
@@ -52,5 +53,11 @@ public class UserServiceImpl implements UserService {
         checkNotFoundWithId(userRepository.save(user), user.getId());
     }
 
-
+    @Override
+    @Transactional
+    public void enable(int id, boolean enabled) {
+        User user = get(id);
+        user.setEnabled(enabled);
+        userRepository.save(user);
+    }
 }

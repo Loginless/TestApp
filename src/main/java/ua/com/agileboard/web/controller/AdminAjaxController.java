@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/ajax/admin/users")
-public class AdminUiController extends AbstractUserController {
+public class AdminAjaxController extends AbstractUserController {
 
     @Override
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -26,6 +26,7 @@ public class AdminUiController extends AbstractUserController {
     }
 
     @PostMapping
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void createOrUpdate(@RequestParam("id") Integer id,
                                @RequestParam("name") String name,
                                @RequestParam("email") String email,
@@ -35,5 +36,12 @@ public class AdminUiController extends AbstractUserController {
         if (user.isNew()) {
             super.create(user);
         }
+    }
+
+    @Override
+    @PostMapping("/{id}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void enable(@PathVariable("id") int id, @RequestParam("enabled") boolean enabled) {
+        super.enable(id, enabled);
     }
 }
