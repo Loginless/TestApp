@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import ua.com.agileboard.model.User;
 import ua.com.agileboard.service.UserService;
+import ua.com.agileboard.to.UserTo;
 
 import static ua.com.agileboard.util.ValidationUtil.*;
 
@@ -35,6 +36,12 @@ public class AbstractUserController {
     public void delete(int id) {
         log.info("delete {}", id);
         userService.delete(id);
+    }
+
+    public void update(UserTo userTo, int id) {
+        log.info("update {} with id={}", userTo, id);
+        assureIdConsistent(userTo, id);
+        userService.update(userTo);
     }
 
     public void update(User user, int id) {

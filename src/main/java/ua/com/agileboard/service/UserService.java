@@ -1,6 +1,7 @@
 package ua.com.agileboard.service;
 
 import ua.com.agileboard.model.User;
+import ua.com.agileboard.to.UserTo;
 import ua.com.agileboard.util.exception.NotFoundException;
 
 import java.util.List;
@@ -18,6 +19,8 @@ public interface UserService {
     User getByEmail(String email) throws NotFoundException;
 
     void update(User user);
+
+    void update(UserTo user);
 
     void enable(int id, boolean enable);
 

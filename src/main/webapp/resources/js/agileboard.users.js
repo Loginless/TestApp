@@ -15,12 +15,10 @@ function enable(chkbox, id) {
     });
 }
 
-
-
 // $(document).ready(function () {
 $(function () {
     makeEditable({
-            ajaxUrl: "ajax/admin/users/",
+            ajaxUrl: userAjaxUrl,
             datatableApi: $("#datatable").DataTable({
                 "paging": false,
                 "info": true,
@@ -57,7 +55,7 @@ $(function () {
                 ]
             }),
             updateTable: function () {
-                $.get("ajax/admin/users/", updateTableByData);
+                $.get(userAjaxUrl, updateTableByData);
             }
         }
     );

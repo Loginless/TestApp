@@ -3,10 +3,10 @@ package ua.com.agileboard.web.user;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import ua.com.agileboard.TestUtil;
-import ua.com.agileboard.model.Role;
 import ua.com.agileboard.model.User;
+import ua.com.agileboard.to.UserTo;
+import ua.com.agileboard.util.UserUtil;
 import ua.com.agileboard.web.AbstractControllerTest;
-import ua.com.agileboard.web.controller.AdminRestController;
 import ua.com.agileboard.web.controller.ProfileRestController;
 import ua.com.agileboard.web.json.JsonUtil;
 
@@ -37,12 +37,15 @@ class ProfileRestControllerTest extends AbstractControllerTest {
 
     @Test
     void testUpdate() throws Exception {
-        User updated = new User(ADMIN_ID, "newName", "newemail@ya.ru", "newPassword", Role.ROLE_USER);
+        UserTo updatedTo = new UserTo(null, "newName", "newemail@ya.ru", "newPassword");
+
         mockMvc.perform(put(ProfileRestController.REST_URL).contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(updated)))
+                .content(JsonUtil.writeValue(updatedTo)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
-        assertMatch(userService.getByEmail("newemail@ya.ru"), updated);
+        assertMatch(userService.getByEmail("newemail@ya.ru"), UserUtil.updateFromTo(new User(USER1), updatedTo));
     }
+
+
 }
