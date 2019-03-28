@@ -1,11 +1,9 @@
 package ua.com.agileboard.to;
 
-import org.hibernate.validator.constraints.Range;
-import org.hibernate.validator.constraints.SafeHtml;
+import ua.com.agileboard.model.User;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
@@ -24,11 +22,18 @@ public class UserTo extends BaseTo implements Serializable {
     @Size(min = 5, max = 32, message = "length must between 5 and 32 characters")
     private String password;
 
+    public UserTo() {
+    }
+
     public UserTo(Integer id, String name, String email, String password) {
         super(id);
         this.name = name;
         this.email = email;
         this.password = password;
+    }
+
+    public static UserTo asTo(User user) {
+        return new UserTo(user.getId(), user.getName(), user.getEmail(), user.getPassword());
     }
 
     public String getPassword() {

@@ -40,5 +40,8 @@ public class UserTestData {
         return result -> assertMatch(readFromJsonMvcResult(result, User.class), expected);
     }
 
+    public static ResultMatcher getUserMatcher(User... expected) {
+        return result -> assertMatch(readListFromJsonMvcResult(result, User.class), List.of(expected));
+    }
 
 }
