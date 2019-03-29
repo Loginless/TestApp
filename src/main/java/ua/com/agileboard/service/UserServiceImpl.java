@@ -5,6 +5,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -25,8 +26,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     private static final Sort SORT_NAME_EMAIL = new Sort(Sort.Direction.ASC, "name", "email");
 
-    @Autowired
     private UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     public User create(User user) {
@@ -58,14 +65,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public void update(User user) {
         Assert.notNull(user, "user must not be null");
-        checkNotFoundWithId(userRepository.save(user), user.getId());
+        checkNotFoundWithId(userRepository.save(UserUtil.prepareToSave(user, passwordEncoder)), user.getId());
     }
 
     @Transactional
     @Override
     public void update(UserTo userTo) {
         User user = get(userTo.getId());
-        userRepository.save(UserUtil.updateFromTo(user, userTo));
+        userRepository.save(UserUtil.prepareToSave(user, passwordEncoder));
     }
 
 

@@ -20,7 +20,7 @@
         <sec:authorize access="isAnonymous()">
             <div class="pt-4">
                 <a class="btn btn-lg btn-success" href="register"><spring:message code="app.register"/> &raquo;</a>
-                <button type="submit" class="btn btn-lg btn-primary" onclick="login('user@yandex.ru', 'password')">
+                <button type="submit" class="btn btn-lg btn-primary" onclick="login('user1@gmail.ru', 'password1')">
                     <spring:message code="app.login"/> User
                 </button>
                 <button type="submit" class="btn btn-lg btn-primary" onclick="login('admin@gmail.com', 'admin')">
