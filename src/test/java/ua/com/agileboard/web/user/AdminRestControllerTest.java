@@ -8,7 +8,7 @@ import ua.com.agileboard.model.Role;
 import ua.com.agileboard.model.User;
 import ua.com.agileboard.web.AbstractControllerTest;
 import ua.com.agileboard.web.controller.AdminRestController;
-import ua.com.agileboard.web.json.JsonUtil;
+import ua.com.agileboard.web.json.JsonUtilTest;
 
 import java.util.Collections;
 
@@ -74,7 +74,7 @@ class AdminRestControllerTest extends AbstractControllerTest {
         mockMvc.perform(put(REST_URL + USER1_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(ADMIN))
-                .content(JsonUtil.writeValue(updated)))
+                .content(JsonUtilTest.writeValue(updated)))
                 .andExpect(status().isNoContent());
 
         assertMatch(userService.get(USER1_ID), updated);
@@ -86,7 +86,7 @@ class AdminRestControllerTest extends AbstractControllerTest {
         ResultActions action = mockMvc.perform(post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(ADMIN))
-                .content(JsonUtil.writeValue(expected)))
+                .content(jsonWithPassword(expected, "newPass")))
                 .andExpect(status().isCreated());
 
         User returned = readFromJsonResultActions(action, User.class);

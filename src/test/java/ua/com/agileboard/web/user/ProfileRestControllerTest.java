@@ -10,6 +10,7 @@ import ua.com.agileboard.util.UserUtil;
 import ua.com.agileboard.web.AbstractControllerTest;
 import ua.com.agileboard.web.controller.ProfileRestController;
 import ua.com.agileboard.web.json.JsonUtil;
+import ua.com.agileboard.web.json.JsonUtilTest;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -53,7 +54,7 @@ class ProfileRestControllerTest extends AbstractControllerTest {
 
         mockMvc.perform(put(ProfileRestController.REST_URL).contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(USER1))
-                .content(JsonUtil.writeValue(updatedTo)))
+                .content(JsonUtilTest.writeValue(updatedTo)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
@@ -64,7 +65,7 @@ class ProfileRestControllerTest extends AbstractControllerTest {
     void testRegister() throws Exception {
         UserTo createdTo = new UserTo(null, "newName", "newemail@ya.ru", "newPassword");
 
-        ResultActions action = mockMvc.perform(post(ProfileRestController.REST_URL + "/register").contentType(MediaType.APPLICATION_JSON)
+        ResultActions action = mockMvc.perform(post(ProfileRestController.REST_URL+ "/register").contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(createdTo)))
                 .andDo(print())
                 .andExpect(status().isCreated());

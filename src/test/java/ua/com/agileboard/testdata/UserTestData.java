@@ -4,6 +4,7 @@ import org.springframework.test.web.servlet.ResultMatcher;
 import ua.com.agileboard.model.AbstractBaseEntity;
 import ua.com.agileboard.model.Role;
 import ua.com.agileboard.model.User;
+import ua.com.agileboard.web.json.JsonUtil;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class UserTestData {
     public static final String USER1_EMAIL = "user1@gmail.ru";
     public static final String USER1_FALSE_EMAIL = "dfdf@yandex.ru";
 
-    public static final User ADMIN = new User(ADMIN_ID, "Admin", "admin@gmail.com", "admin", Role.ROLE_ADMIN, Role.ROLE_USER);
+    public static final User ADMIN = new User(ADMIN_ID, "Admin", "admin@gmail.com", "admin", Role.ROLE_ADMIN);
     public static final User USER1 = new User(USER1_ID, "User_1", "user1@gmail.ru", "password1", Role.ROLE_USER);
     public static final User USER2 = new User(USER2_ID, "User_2", "user2@gmail.ru", "password2", Role.ROLE_USER);
 
@@ -42,6 +43,10 @@ public class UserTestData {
 
     public static ResultMatcher getUserMatcher(User... expected) {
         return result -> assertMatch(readListFromJsonMvcResult(result, User.class), List.of(expected));
+    }
+
+    public static String jsonWithPassword(User user, String passw) {
+        return JsonUtil.writeAdditionProps(user, "password", passw);
     }
 
 }

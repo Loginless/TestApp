@@ -1,42 +1,50 @@
-//package ua.com.agileboard.web.json;
-//
-//import org.junit.jupiter.api.Test;
-//import ru.javawebinar.topjava.UserTestData;
-//import ru.javawebinar.topjava.model.Meal;
-//import ru.javawebinar.topjava.model.User;
-//
-//import java.util.List;
-//
-//import static org.junit.jupiter.api.Assertions.assertFalse;
-//import static ru.javawebinar.topjava.MealTestData.*;
-//
-//class JsonUtilTest {
-//
-//    @Test
-//    void testReadWriteValue() throws Exception {
-//        String json = JsonUtil.writeValue(ADMIN_MEAL1);
-//        System.out.println(json);
-//        Meal meal = JsonUtil.readValue(json, Meal.class);
-//        assertMatch(meal, ADMIN_MEAL1);
-//    }
-//
-//    @Test
-//    void testReadWriteValues() throws Exception {
-//        String json = JsonUtil.writeValue(MEALS);
-//        System.out.println(json);
-//        List<Meal> meals = JsonUtil.readValues(json, Meal.class);
-//        assertMatch(meals, MEALS);
-//    }
-//
-//    @Test
-////  https://junit.org/junit5/docs/current/user-guide/#writing-tests-assertions
-//    void testWriteOnlyAccess() throws Exception {
-//        String json = JsonUtil.writeValue(UserTestData.USER);
-//        System.out.println(json);
-//        assertFalse(json.contains("password"));
-//        String jsonWithPass = UserTestData.jsonWithPassword(UserTestData.USER, "newPass");
-//        System.out.println(jsonWithPass);
-//        User user = JsonUtil.readValue(jsonWithPass, User.class);
-//        assertEquals(user.getPassword(), "newPass");
-//    }
-//}
+package ua.com.agileboard.web.json;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectReader;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
+import static ua.com.agileboard.web.json.JacksonObjectMapper.getMapper;
+
+public class JsonUtilTest {
+
+    public static <T> List<T> readValues(String json, Class<T> clazz) {
+        ObjectReader reader = JacksonObjectMapper.getMapper().readerFor(clazz);
+        try {
+            return reader.<T>readValues(json).readAll();
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Invalid read array from JSON:\n'" + json + "'", e);
+        }
+    }
+
+    public static <T> T readValue(String json, Class<T> clazz) {
+        try {
+            return getMapper().readValue(json, clazz);
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Invalid read from JSON:\n'" + json + "'", e);
+        }
+    }
+
+    public static <T> String writeValue(T obj) {
+        try {
+            return getMapper().writeValueAsString(obj);
+        } catch (JsonProcessingException e) {
+            throw new IllegalStateException("Invalid write to JSON:\n'" + obj + "'", e);
+        }
+    }
+
+    public static <T> String writeAdditionProps(T obj, String addName, Object addValue) {
+        return writeAdditionProps(obj, Map.of(addName, addValue));
+    }
+
+    public static <T> String writeAdditionProps(T obj, Map<String, Object> addProps) {
+        Map<String, Object> map = getMapper().convertValue(obj, new TypeReference<Map<String, Object>>() {
+        });
+        map.putAll(addProps);
+        return writeValue(map);
+    }
+}
