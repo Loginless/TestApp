@@ -2,6 +2,7 @@ package ua.com.agileboard.web.user;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.ResultActions;
 import ua.com.agileboard.TestUtil;
 import ua.com.agileboard.model.User;
 import ua.com.agileboard.to.UserTo;
@@ -14,6 +15,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static ua.com.agileboard.TestUtil.readFromJsonResultActions;
 import static ua.com.agileboard.TestUtil.userHttpBasic;
 import static ua.com.agileboard.testdata.UserTestData.*;
 
@@ -58,5 +60,21 @@ class ProfileRestControllerTest extends AbstractControllerTest {
         assertMatch(userService.getByEmail("newemail@ya.ru"), UserUtil.updateFromTo(new User(USER1), updatedTo));
     }
 
+    @Test
+    void testRegister() throws Exception {
+        UserTo createdTo = new UserTo(null, "newName", "newemail@ya.ru", "newPassword");
+
+        ResultActions action = mockMvc.perform(post(ProfileRestController.REST_URL + "/register").contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(createdTo)))
+                .andDo(print())
+                .andExpect(status().isCreated());
+        User returned = readFromJsonResultActions(action, User.class);
+
+        User created = UserUtil.createNewFromTo(createdTo);
+        created.setId(returned.getId());
+
+        assertMatch(returned, created);
+        assertMatch(userService.getByEmail("newemail@ya.ru"), created);
+    }
 
 }
